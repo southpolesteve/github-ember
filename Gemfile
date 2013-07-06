@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+ruby "2.0.0"
+
 gem 'rails', '4.0.0'
 
 gem 'sqlite3'
@@ -19,6 +21,12 @@ gem 'omniauth'
 gem 'omniauth-github'
 gem 'figaro'
 gem 'emblem-rails'
+
+group :production do
+  gem 'rails_12factor'
+  gem 'pg'
+  gem 'unicorn'
+end
 
 group :development, :test do
   gem 'thin'
