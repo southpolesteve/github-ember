@@ -4,7 +4,7 @@ ruby "2.0.0"
 
 gem 'rails', '4.0.0'
 
-gem 'sqlite3'
+
 gem 'sass-rails'
 gem 'uglifier'
 gem 'coffee-rails'
@@ -30,6 +30,7 @@ end
 
 group :development, :test do
   gem 'thin'
+  gem 'sqlite3'
 end
 
 group :development do
