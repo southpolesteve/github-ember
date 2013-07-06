@@ -1,0 +1,11 @@
+p
+  linkTo 'repo' repo | Back to Repo
+
+h2 = title
+p
+  markdown body
+
+h3 Comments
+each comment in comments
+  p
+    markdown comment.body

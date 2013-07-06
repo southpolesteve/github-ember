@@ -1,0 +1,6 @@
+h1 Issues
+
+ul
+  each issue in controller
+    li 
+      linkTo 'issue' issue | #{issue.title}

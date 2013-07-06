@@ -1,0 +1,6 @@
+h1 Repos
+
+ul
+  each repo in controller
+    li 
+      linkTo 'repo' repo | #{repo.full_name} - #{repo.open_issues}

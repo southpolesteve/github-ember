@@ -1,0 +1,3 @@
+p Open issues: #{open_issues}
+
+= outlet
