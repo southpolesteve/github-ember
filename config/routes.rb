@@ -4,4 +4,6 @@ EmberIssues::Application.routes.draw do
 
   match "/auth/github/callback" => "sessions#create", via: [:get, :post]
 
+  get "/logout" => "sessions#destroy", :as => :logout
+
 end

@@ -5,6 +5,9 @@
       ul.nav
         li
           linkTo 'repos' | Repos
+      ul.nav.pull-right
+        li
+          a href='/logout' Logout
 
 .container
   .row
