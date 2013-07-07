@@ -9,4 +9,4 @@
 
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
-EmberIssues::Application.config.secret_key_base = '20fd07b5216d89198f2f1cd77afc480e5e276ec4328b7908169cde858ba675068ccea2128421a379dd1afd507441835aac510afb5f7bc4b8c26f97dca0ccdd77'
+EmberIssues::Application.config.secret_key_base = ENV['SECRET_TOKEN']
