@@ -1,4 +1,4 @@
-h2 = title
+h3 = title
 p
   markdown body
 

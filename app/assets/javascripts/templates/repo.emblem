@@ -1,9 +1,13 @@
 .row
   .span4
-    h2 Issues
-    ul.unstyled
+    .row
+      .span2
+        h3 Issues
+      .span2.right
+        linkTo 'repo.new' tagName="button" classNames="btn" | New Issue
+    ul.nav.nav-list
       each issue in issues
-        li 
+        linkTo 'issue' issue tagName='li' href=false 
           linkTo 'issue' issue | #{issue.title}
 
   .span8

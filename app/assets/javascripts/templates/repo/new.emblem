@@ -1,0 +1,14 @@
+form.form-horizontal
+  legend New Issue
+
+  .control-group
+    label.control-label for="Title" Title
+    .controls
+      view Ember.TextField valueBinding="title" id="title" placeholder="Title" required="true"
+  .control-group
+    label.control-label for="Body" Description
+    .controls
+      view Ember.TextArea valueBinding="body" id="body" placeholder="Description" required="true"
+
+  .form-actions
+    button.btn click="save" Create Issue
