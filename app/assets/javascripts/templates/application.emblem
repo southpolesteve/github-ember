@@ -1,3 +1,12 @@
-h1 Github Issues
-linkTo 'repos' | Repos
-= outlet
+.navbar.navbar-inverse.navbar-fixed-top
+  .navbar-inner
+    .container
+      .brand Github Issues
+      ul.nav
+        li
+          linkTo 'repos' | Repos
+
+.container
+  .row
+    .span12
+      = outlet

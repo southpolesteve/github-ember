@@ -1,6 +1,3 @@
-p
-  linkTo 'repo' repo | Back to Repo
-
 h2 = title
 p
   markdown body
