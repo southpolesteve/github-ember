@@ -1,3 +1,12 @@
+
+
+
 -if current_user
   :javascript
     window.token = "#{current_user.github_token}"
+
+  = javascript_include_tag 'app_manifest'
+
+- else
+  = link_to 'Login (Public and Private Repos)', '/auth/github?scope=user,repo'
+  = link_to 'Login (Public Repos Only)', '/auth/github?scope=user,public_repo'
