@@ -1,0 +1,5 @@
+if isLoading
+    li fetching some more stuff
+else
+    li
+      a{action "loadMore" target="controller" } click to load more items

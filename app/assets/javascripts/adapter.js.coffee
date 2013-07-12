@@ -48,8 +48,9 @@ Github.Adapter = Ember.Adapter.extend
         else
           settings.contentType = "application/json; charset=utf-8"
           settings.data = JSON.stringify(params)
-      settings.success = (json) ->
+      settings.success = (json, textStatus, jqXHR) ->
         Ember.run null, resolve, json
+        console.log jqXHR.getResponseHeader('Link')
 
       settings.error = (jqXHR, textStatus, errorThrown) ->
         Ember.run null, reject, jqXHR

@@ -1,14 +1,14 @@
-.row
+.row-fuild
+  h3 = full_name
+  render 'collaborators' collaborators
+.row-fluid
   .span4
-    .row
+    .row-fluid
       .span2
         h3 Issues
       .span2.right
         linkTo 'repo.new' tagName="button" classNames="btn" | New Issue
-    ul.nav.nav-list
-      each issue in issues
-        linkTo 'issue' issue tagName='li' href=false 
-          linkTo 'issue' issue | #{issue.title}
+    render 'issues' issues
 
   .span8
     = outlet

@@ -1,6 +1,6 @@
 .navbar.navbar-inverse.navbar-fixed-top
   .navbar-inner
-    .container
+    .container-fluid
       .brand Github Issues
       ul.nav
         li
@@ -9,7 +9,7 @@
         li
           a href='/logout' Logout
 
-.container
-  .row
+.container-fluid
+  .row-fluid
     .span12
       = outlet

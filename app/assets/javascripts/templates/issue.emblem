@@ -1,8 +1,5 @@
 h3 = title
-p
-  markdown body
 
-h3 Comments
-each comment in comments
-  p
-    markdown comment.body
+markdown body
+
+render 'comments' comments

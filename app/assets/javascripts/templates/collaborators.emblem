@@ -1,0 +1,2 @@
+each collaborator in controller
+  img.img-polaroid.avatar src=collaborator.avatar_url alt=collaborator.login title=collaborator.login

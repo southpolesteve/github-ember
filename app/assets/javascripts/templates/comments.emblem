@@ -1,0 +1,8 @@
+h3 Comments
+
+if content.isLoaded
+  each comment in controller
+    img.img-polaroid.avatar src=comment.user.avatar_url
+    markdown comment.body
+else
+  h4 Loading Comments...
