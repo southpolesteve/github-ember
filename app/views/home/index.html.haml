@@ -8,5 +8,6 @@
   = javascript_include_tag 'app_manifest'
 
 - else
-  = link_to 'Login (Public and Private Repos)', '/auth/github?scope=user,repo'
-  = link_to 'Login (Public Repos Only)', '/auth/github?scope=user,public_repo'
+  .sign_in
+    = link_to 'Login (Public and Private Repos)', '/auth/github?scope=user,repo'
+    = link_to 'Login (Public Repos Only)', '/auth/github?scope=user,public_repo'

@@ -1,5 +1,6 @@
 h3 = title
+hr
 
-markdown body
-
+if body
+  markdown body
 render 'comments' comments
