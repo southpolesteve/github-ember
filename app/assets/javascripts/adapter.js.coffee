@@ -28,7 +28,13 @@ Github.Adapter = Ember.Adapter.extend
         records.load klass, data
 
   ajax: (url, params, method) ->
-    @_ajax url, params, method or "GET"
+    @_ajax url, params, method || "GET"
+
+  createRecord: (record)->
+    @ajax(record.createUrl, record.toJSON(), "POST").then (data) ->
+      primaryKey = get(record.constructor, 'primaryKey')
+      record.load(data[primaryKey], data)
+      record.didCreateRecord()
 
   buildURL: (klass, params) ->
     @base + klass.url
@@ -40,6 +46,9 @@ Github.Adapter = Ember.Adapter.extend
       dataType: "json"
       beforeSend: (request) ->
         request.setRequestHeader("Authorization", "token #{token}");
+
+        #TODO: Eventually use this to get full github processed HTML for issues and comments?
+        #request.setRequestHeader("Accept", "application/vnd.github.v3.full+json")
 
     new Ember.RSVP.Promise((resolve, reject) ->
       if params

@@ -4,5 +4,7 @@ if content.isLoaded
   each comment in controller
     img.img-polaroid.avatar src=comment.user.avatar_url
     markdown comment.body
+  view Github.NewCommentView
 else
   h4 Loading Comments...
+

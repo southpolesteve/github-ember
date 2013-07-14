@@ -1,15 +1,16 @@
-.navbar.navbar-inverse.navbar-fixed-top
-  .navbar-inner
-    .container-fluid
-      .brand Github Issues
-      ul.nav
-        li
-          linkTo 'repos' | Repos
-      ul.nav.pull-right
-        li
-          a href='/logout' Logout
+.container-fluid
+  .row-fluid
+    .span12
+      ul.nav.nav-pills.pull-right
+        li: linkTo 'repos' | Your Repos
+        li: a href='/logout' Logout
+      h3
+        span.muted Github Issues
+        if subTitle
+          `
+          = subTitle
 
 .container-fluid
   .row-fluid
     .span12
-      = outlet
+      outlet
