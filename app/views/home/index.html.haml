@@ -6,8 +6,14 @@
     window.token = "#{current_user.github_token}"
 
   = javascript_include_tag 'app_manifest'
-
 - else
-  .sign_in
-    = link_to 'Login (Public and Private Repos)', '/auth/github?scope=user,repo'
-    = link_to 'Login (Public Repos Only)', '/auth/github?scope=user,public_repo'
+  .container
+    .sign_in.text-center
+      %h1 What if Github Issues was built on Ember?
+      .all_repos
+        = link_to '/auth/github?scope=user,repo' do
+          = image_tag 'github.png'
+          %h1 Login with Github
+      %p or
+      %small
+        = link_to 'Login (Public Repos Only)', '/auth/github?scope=user,public_repo', class: "public_only"
