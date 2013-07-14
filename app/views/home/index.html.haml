@@ -7,13 +7,12 @@
 
   = javascript_include_tag 'app_manifest'
 - else
-  .container
-    .sign_in.text-center
-      %h1 What if Github Issues was built on Ember?
-      .all_repos
-        = link_to '/auth/github?scope=user,repo' do
-          = image_tag 'github.png'
-          %h1 Login with Github
-      %p or
-      %small
-        = link_to 'Login (Public Repos Only)', '/auth/github?scope=user,public_repo', class: "public_only"
+  .sign_in.text-center
+    %h1 What if Github Issues was built on Ember?
+    .all_repos
+      = link_to '/auth/github?scope=user,repo' do
+        = image_tag 'github.png'
+        %h1 Login with Github
+    %p or
+    %small
+      = link_to 'Login (Public Repos Only)', '/auth/github?scope=user,public_repo', class: "public_only"
