@@ -3,6 +3,7 @@
     .span12
       ul.nav.nav-pills.pull-right
         li: linkTo 'repos' | Your Repos
+        li: linkTo 'about' | About
         li: a href='/logout' Logout
       h3
         span.muted Github Issues
