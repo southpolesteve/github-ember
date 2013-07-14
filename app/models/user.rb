@@ -14,5 +14,16 @@ class User < ActiveRecord::Base
     user.save!
     return user
   end
-  
+
+  def update_omniauth(auth)
+    if auth['info']
+       self.name = auth['info']['name']
+       self.email = auth['info']['email']
+       self.avatar = auth['info']['image']
+       self.github_token = auth['credentials']['token']
+       self.github_login = auth['extra']['raw_info']['login']
+    end
+    save!
+  end
+
 end
