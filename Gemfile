@@ -21,6 +21,7 @@ gem 'omniauth'
 gem 'omniauth-github'
 gem 'figaro'
 gem 'emblem-rails'
+gem 'newrelic_rpm'
 
 group :production do
   gem 'rails_12factor'
