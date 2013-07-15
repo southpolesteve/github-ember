@@ -19,3 +19,5 @@ Github.IssuesController = Ember.ArrayController.extend
       # () =>
       #   @deincrementProperty('currentPage')
     )
+
+
