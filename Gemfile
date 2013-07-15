@@ -22,6 +22,7 @@ gem 'omniauth-github'
 gem 'figaro'
 gem 'emblem-rails'
 gem 'newrelic_rpm'
+gem 'sentry-raven'
 
 group :production do
   gem 'rails_12factor'
