@@ -1,9 +1,15 @@
-Github.CommentsController = Ember.ArrayController.extend
+Github.CommentsController = Ember.ArrayController.extend Github.PaginatedController,
   repo: null
   needs: ['repo', 'issue']
   repoBinding: 'controllers.repo'
   issueBinding: 'controllers.issue'
   newComment: Ember.Object.create()
+
+  fetchPage: (page)->
+
+    Github.Comment.fetch
+      url: @get('issue.comments_url')
+      page: page
 
   create: ()->
     comment = @get('issue.model').createComment(@get('newComment').getProperties('body'))
