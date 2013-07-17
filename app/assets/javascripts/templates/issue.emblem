@@ -1,5 +1,4 @@
 h3 = title
-hr
 
 if body
   markdown body
