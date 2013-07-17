@@ -7,8 +7,9 @@ Github.Issue = Ember.Model.extend
   created_at: Ember.attr()
   updated_at: Ember.attr()
   comments_url: Ember.attr()
+  comments: Ember.attr()
 
-  comments: (()->
+  getComments: (()->
     Github.Comment.find
       url: @get('comments_url')
       page: 1

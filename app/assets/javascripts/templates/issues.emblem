@@ -1,6 +1,7 @@
 ul.nav.nav-list.issues
   each issue in controller
-    linkTo 'issue' issue tagName='li' href=false 
-      linkTo 'issue' issue | #{issue.title}
+    linkTo 'issue' issue tagName='li' href=false
+      linkTo 'issue' issue | #{issue.number} - #{issue.title} - #{issue.comments}
   if canLoadMore
     view 'Github.LoadMoreView'
+

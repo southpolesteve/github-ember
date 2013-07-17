@@ -1,17 +1,12 @@
-.container-fluid
-  .row-fluid
-    .span12
-      ul.nav.nav-pills.pull-right
-        li: linkTo 'repos' | Your Repos
-        li: linkTo 'about' | About
-        li: a href='/logout' Logout
-      h3
-        span.muted Github Issues
-        if subTitle
-          `
-          = subTitle
-
-.container-fluid
-  .row-fluid
-    .span12
-      outlet
+#header
+  ul.nav.nav-pills.pull-right
+    li: linkTo 'repos' | Your Repos
+    li: linkTo 'about' | About
+    li: a href='/logout' Logout
+  h3
+    span.muted Github Issues
+    if subTitle
+      `
+      = subTitle
+#content
+  outlet

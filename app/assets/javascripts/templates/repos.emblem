@@ -1,4 +1,4 @@
-ul.nav.nav-tabs.nav-stacked
+ul#repos.nav.nav-tabs.nav-stacked
   each repo in controller
     li 
       linkTo 'repo' repo | #{repo.full_name} - #{repo.open_issues}
