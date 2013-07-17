@@ -14,15 +14,60 @@
 
 @import "bootstrap";
 
+$header-height: 50px;
+
+
+html, body {
+    height:100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+div {
+    margin: 0;
+    padding: 0;
+}
+
+#header {
+  height: $header-height;
+  top: 0px;
+  right: 0px;
+  left: 0px;
+}
+
+#issue-list {
+  float: left;
+  width: 30%;
+  height: 100%;
+  overflow-y: auto;
+}
+
+#comments {
+  float: right;
+  width: 70%;
+  height: 100%;
+  overflow-y: auto;
+}
+
+#repos {
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+}
+
+#content {
+  position: absolute;
+  top: $header-height;
+  bottom: 0px;
+  width: 100%;
+}
+
 .sign_in {
   width: 600px;
   height: 400px;
   margin: 0 auto;
   margin-top: 40px;
-}
-
-.public_only {
-  
 }
 
 img.avatar {
