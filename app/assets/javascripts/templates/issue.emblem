@@ -2,4 +2,5 @@ h3 = title
 
 if body
   markdown body
-render 'comments' comments
+
+render 'comments' getComments
