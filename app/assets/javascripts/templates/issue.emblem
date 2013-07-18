@@ -1,5 +1,5 @@
-h3 = title
-
-if body
-  markdown body
-render 'comments' comments
+#comments
+  h3 = title
+  if body
+    markdown body
+  render 'comments' comments
