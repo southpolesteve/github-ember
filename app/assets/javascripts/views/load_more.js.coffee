@@ -4,5 +4,4 @@ Github.LoadMoreView = Ember.View.extend
   didInsertElement: () ->
     @.$().bind 'inview', (event, isInView, visiblePartX, visiblePartY) =>
       if isInView && @get('controller.content.isLoaded')
-        console.log('Appeared inview')
         @get('controller').loadMore()

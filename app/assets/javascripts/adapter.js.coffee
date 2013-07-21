@@ -25,8 +25,12 @@ Github.Adapter = Ember.Adapter.extend
     url = params.url
     delete params.url
     @ajax(url, params).then (response) =>
-      pages = @_parseLinkHeader(response.headers.getResponseHeader('link'))
-      records.setProperties(pages)
+      links = response.headers.getResponseHeader('link')
+      if links
+        pages = @_parseLinkHeader(links)
+        records.set('lastPage', pages.last_page)
+      else
+        records.set('lastPage', 1)
       records.load klass, response.data
 
   ajax: (url, params, method) ->

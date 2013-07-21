@@ -1,11 +1,13 @@
 Github.PaginatedController = Ember.Mixin.create
   currentPage: 1
-  lastPage: 9999
   isLoadingMore: false
 
   canLoadMore: (()->
-    @get('lastPage') > @get('currentPage')
-  ).property('lastPage', 'currentPage')
+    if @get('content.isLoaded')
+      @get('content.lastPage') > @get('currentPage')
+    else
+      true
+  ).property('content.lastPage', 'currentPage', 'isLoaded')
 
   loadMore: () ->
     if @get('canLoadMore')
@@ -17,8 +19,6 @@ Github.PaginatedController = Ember.Mixin.create
           @addObjects(data)
           @set('lastPage', data.get('last_page'))
           @set('isLoadingMore', false)
-        # () =>
-        #   @deincrementProperty('currentPage')
       )
 
   fetchPage: (page)->

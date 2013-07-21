@@ -2,5 +2,4 @@ ul.nav.nav-list
   each issue in controller
     linkTo 'issue' issue tagName='li' href=false 
       linkTo 'issue' issue | #{issue.title}
-  if canLoadMore
-    view 'Github.LoadMoreView'
+  view 'Github.LoadMoreView'
