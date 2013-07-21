@@ -14,18 +14,24 @@ Github.Adapter = Ember.Adapter.extend
   base: "https://api.github.com"
 
   find: (record, id) ->
-    @ajax(id).then (data) ->
-      record.load id, data
+    @ajax(id).then (response) ->
+      record.load id, response.data
 
   findAll: (klass, records) ->
-    @ajax(@base + klass.collectionUrl).then (data) ->
-      records.load klass, data
+    @ajax(@base + klass.collectionUrl).then (response) ->
+      records.load klass, response.data
 
   findQuery: (klass, records, params) ->
     url = params.url
     delete params.url
-    @ajax(url, params).then (data) =>
-        records.load klass, data
+    @ajax(url, params).then (response) =>
+      links = response.headers.getResponseHeader('link')
+      if links
+        pages = @_parseLinkHeader(links)
+        records.set('lastPage', pages.last_page)
+      else
+        records.set('lastPage', 1)
+      records.load klass, response.data
 
   ajax: (url, params, method) ->
     @_ajax url, params, method || "GET"
@@ -39,6 +45,17 @@ Github.Adapter = Ember.Adapter.extend
   buildURL: (klass, params) ->
     @base + klass.url
 
+  #https://gist.github.com/niallo/3109252
+  _parseLinkHeader: (header) ->
+    parts = header.split(",")
+    pages = {}
+    for part in parts
+      section = part.split(";")
+      url = section[0].replace(/<(.*)>/, "$1").trim()
+      name = section[1].replace(/rel="(.*)"/, "$1").trim()
+      pages[name+"_page"] = parseInt(url.split("page=")[1])
+    pages
+
   _ajax: (url, params, method) ->
     settings =
       url: url
@@ -50,18 +67,20 @@ Github.Adapter = Ember.Adapter.extend
         #TODO: Eventually use this to get full github processed HTML for issues and comments?
         #request.setRequestHeader("Accept", "application/vnd.github.v3.full+json")
 
-    new Ember.RSVP.Promise((resolve, reject) ->
+    new Ember.RSVP.Promise((resolve, reject) =>
       if params
         if method is "GET"
           settings.data = params
         else
           settings.contentType = "application/json; charset=utf-8"
           settings.data = JSON.stringify(params)
-      settings.success = (json, textStatus, jqXHR) ->
-        Ember.run null, resolve, json
-        console.log jqXHR.getResponseHeader('Link')
+      settings.success = (json, textStatus, jqXHR) =>
+        response = {}
+        response.data = json
+        response.headers = jqXHR
+        Ember.run null, resolve, response
 
-      settings.error = (jqXHR, textStatus, errorThrown) ->
+      settings.error = (jqXHR, textStatus, errorThrown) =>
         Ember.run null, reject, jqXHR
 
       Ember.$.ajax settings
