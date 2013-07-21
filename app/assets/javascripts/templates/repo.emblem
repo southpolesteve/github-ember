@@ -1,14 +1,8 @@
 / TODO: Render up a nice drag and drop palette for collaborators, labels, and milestones
 / render 'collaborators' collaborators
   
-.row-fluid
-  .span3
-    .row-fluid
-      .span3
-        h3 Issues
-      .span1.pull-right
-        / linkTo 'repo.new' tagName="button" classNames="btn" | New Issue
-    render 'issues' issues
+#issues
+  / linkTo 'repo.new' tagName="button" classNames="btn" | New Issue
+  render 'issues' issues
 
-  .span9
-    = outlet
+= outlet
