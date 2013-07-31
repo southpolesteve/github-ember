@@ -8,13 +8,12 @@
  * You're free to add application-wide styles to this file and they'll appear at the top of the
  * compiled file, but it's generally better to create a new file per style scope.
  *
+ *= require bootstrap
  *= require_self
  */
 
-
-@import "bootstrap";
-
 $header-height: 50px;
+
 
 html, body {
     height:100%;

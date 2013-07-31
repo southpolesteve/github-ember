@@ -2,10 +2,14 @@ h3 Comments
 
 if content.isLoaded
   each comment in controller
-    img.img-polaroid.avatar src=comment.user.avatar_url
-    markdown comment.body
+    .media
+      img.thumbnail.avatar.pull-left.media-object src=comment.user.avatar_url
+      .media-body
+        .panel
+          markdown comment.body
   if canLoadMore
     view 'Github.LoadMoreView'
+  hr
   view Github.NewCommentView
 else
   h4 Loading Comments...

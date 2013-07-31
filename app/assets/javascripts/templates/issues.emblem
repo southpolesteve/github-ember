@@ -1,6 +1,5 @@
 #issues
-  ul.nav.nav-list
+  .list-group
     each issue in controller
-      linkTo 'issue' issue tagName='li' href=false 
-        linkTo 'issue' issue | #{issue.title}
+      linkTo 'issue' issue classNames='list-group-item' | #{issue.title}
     view 'Github.LoadMoreView'

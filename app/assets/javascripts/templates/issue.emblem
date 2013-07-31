@@ -1,5 +1,7 @@
 #comments
-  h3 = title
-  if body
-    markdown body
+  .panel
+    .panel-heading
+      h3.panel-title = title
+    if body
+      markdown body
   render 'comments' comments
