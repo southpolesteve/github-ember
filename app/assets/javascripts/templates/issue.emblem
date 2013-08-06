@@ -1,7 +1,10 @@
 #comments
-  .panel
-    .panel-heading
-      h3.panel-title = title
-    if body
-      markdown body
+  .media
+    img.thumbnail.avatar.pull-left.media-object src=user.avatar_url
+    .media-body
+      .panel
+        .panel-heading
+          h3.panel-title = title
+        if body
+          markdown body
   render 'comments' comments
