@@ -1,2 +1,0 @@
-if canLoadMore
-  li loading page #{currentPage} of #{content.lastPage}

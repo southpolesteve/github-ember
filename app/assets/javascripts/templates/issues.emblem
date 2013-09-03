@@ -1,5 +1,0 @@
-#issues
-  .list-group
-    each issue in controller
-      linkTo 'issue' issue classNames='list-group-item' | #{issue.title}
-    view 'Github.LoadMoreView'

@@ -1,0 +1,7 @@
+<form>
+  {{view Ember.TextArea valueBinding="title" id="title" placeholder="Title" classNames="input-block-level"}}
+  {{view Ember.TextArea valueBinding="body" id="body" placeholder="Description" rows="5" classNames="input-block-level"}}
+  <button class="btn btn-success" {{action save on="click"}}>
+    Create Issue
+  </button>
+</form>

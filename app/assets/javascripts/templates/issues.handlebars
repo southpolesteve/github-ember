@@ -1,0 +1,8 @@
+<div id="issues">
+  <div class="list-group">
+    {{#each issue in controller}}
+      {{#link-to 'issue' issue classNames='list-group-item'}}{{issue.title}}{{/link-to}}
+    {{/each}}
+    {{view Github.LoadMoreView}}
+  </div>
+</div>

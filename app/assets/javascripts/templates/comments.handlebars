@@ -1,0 +1,15 @@
+{{#each comment in controller }}
+  <div class="media">
+    <img class="thumbnail avatar pull-left media-object" {{bind-attr src="comment.user.avatar_url" }}>
+    <div class="media-body">
+      <div class="panel">
+        {{markdown comment.body}}
+      </div>
+    </div>
+  </div>
+{{/each}}
+{{#if canLoadMore}}
+  {{view Github.LoadMoreView}}
+{{/if}}
+<hr/>
+{{view Github.NewCommentView}}

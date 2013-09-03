@@ -1,0 +1,14 @@
+<div id="comments">
+  <div class="media">
+    <img class="thumbnail avatar pull-left media-object" {{bind-attr src="user.avatar_url"}}>
+    <div class="media-body">
+      <div class="panel">
+        <div class="panel-heading">
+          <h3 class="panel-title">{{title}}</h3>
+        </div>
+        {{markdown body}}
+      </div>
+    </div>
+  </div>
+  {{render 'comments' comments}}
+</div>

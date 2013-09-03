@@ -16,10 +16,12 @@ Github.Adapter = Ember.Adapter.extend
   find: (record, id) ->
     @ajax(id).then (response) ->
       record.load id, response.data
+      record
 
   findAll: (klass, records) ->
     @ajax(@base + klass.collectionUrl).then (response) ->
       records.load klass, response.data
+      records
 
   findQuery: (klass, records, params) ->
     url = params.url
@@ -32,15 +34,17 @@ Github.Adapter = Ember.Adapter.extend
       else
         records.set('lastPage', 1)
       records.load klass, response.data
+      records
 
   ajax: (url, params, method) ->
     @_ajax url, params, method || "GET"
 
   createRecord: (record)->
-    @ajax(record.createUrl, record.toJSON(), "POST").then (data) ->
+    @ajax(record.createUrl, record.toJSON(), "POST").then (response) ->
       primaryKey = get(record.constructor, 'primaryKey')
-      record.load(data[primaryKey], data)
+      record.load(response.data[primaryKey], response.data)
       record.didCreateRecord()
+      record
 
   buildURL: (klass, params) ->
     @base + klass.url
@@ -67,7 +71,7 @@ Github.Adapter = Ember.Adapter.extend
         #TODO: Eventually use this to get full github processed HTML for issues and comments?
         #request.setRequestHeader("Accept", "application/vnd.github.v3.full+json")
 
-    new Ember.RSVP.Promise((resolve, reject) =>
+    new Ember.RSVP.Promise (resolve, reject) =>
       if params
         if method is "GET"
           settings.data = params
@@ -84,7 +88,6 @@ Github.Adapter = Ember.Adapter.extend
         Ember.run null, reject, jqXHR
 
       Ember.$.ajax settings
-    )
 
 modelClasses = [Github.User, Github.Repo, Github.Issue, Github.Comment]
 modelClasses.forEach (klass) ->

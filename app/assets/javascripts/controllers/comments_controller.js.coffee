@@ -6,18 +6,18 @@ Github.CommentsController = Ember.ArrayController.extend Github.PaginatedControl
   newComment: Ember.Object.create()
 
   fetchPage: (page)->
-
     Github.Comment.fetch
       url: @get('issue.comments_url')
       page: page
 
-  create: ()->
-    comment = @get('issue.model').createComment(@get('newComment').getProperties('body'))
-    comment.one 'didLoad', ()=>
-      @addObject comment
-      @resetNewComment()
+  actions:
+    create: ()->
+      # TODO: Handle case when comment creation fails
+      promise = @get('issue.model').createComment(@get('newComment').getProperties('body'))
+      promise.then (comment)=>
+        @addObject comment
+        @resetNewComment()
 
-    # TODO: Handle case when comment creation fails
 
   resetNewComment: ()->
     @set 'newComment', Ember.Object.create()

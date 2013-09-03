@@ -1,0 +1,16 @@
+<div id='header'>
+  <ul class="nav nav-pills pull-right">
+    <li>{{#link-to 'repos'}}Your Repos{{/link-to}}</li>
+    <li>{{#link-to 'about'}}About{{/link-to}}</li>
+    <li><a href="/logout">Logout</a></li>
+  </ul>
+  <h3>
+    <span>Github Issues</span>
+    {{#if subTitle}}
+      {{subTitle}}
+    {{/if}}
+  </h3>
+</div>
+<div id="content">
+  {{outlet}}
+</div>

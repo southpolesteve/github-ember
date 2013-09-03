@@ -1,3 +1,0 @@
-form
-  view Ember.TextArea valueBinding="newComment.body" id="body" placeholder="Leave a Comment" rows="4" classNames="form-control"
-  button.btn.btn-success click="create" Comment

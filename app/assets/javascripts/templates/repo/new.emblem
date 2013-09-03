@@ -1,5 +1,0 @@
-form
-  legend New Issue
-  view Ember.TextField valueBinding="title" id="title" placeholder="Title" required="true" classNames="input-block-level"
-  view Ember.TextArea valueBinding="body" id="body" placeholder="Description" required="true" classNames="input-block-level" rows="5"
-  button.btn click="save" Create Issue

@@ -1,0 +1,11 @@
+<div id="repos">
+  <ul class="nav nav-tabs nav-stacked">
+    {{#each repo in controller}}
+      <li>
+        {{#link-to 'repo' repo}}
+          {{repo.full_name}} - {{repo.open_issues}}
+        {{/link-to}}
+      </li>
+    {{/each}}
+  </ul>
+</div>

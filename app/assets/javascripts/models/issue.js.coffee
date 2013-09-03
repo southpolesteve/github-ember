@@ -13,15 +13,12 @@ Github.Issue = Ember.Model.extend
     Github.Comment.find
       url: @get('comments_url')
       page: 1
-  ).property('comments_url')
+  ).property()
 
   createComment: (attributes)->
-    comment = Github.Comment.create()
+    comment = Github.Comment.create(attributes)
     comment.set('createUrl', @get('comments_url'))
-    comment.setProperties(attributes)
     comment.save()
-    comment
-
 
 Github.Issue.primaryKey = 'url'
 
