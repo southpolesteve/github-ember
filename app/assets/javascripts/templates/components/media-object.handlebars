@@ -1,0 +1,13 @@
+<div class="media">
+  {{github-avatar user=user}}
+  <div class="media-body">
+    <div class="panel">
+      {{#if title}}
+        <div class="panel-heading">
+          <h3 class="panel-title">{{title}}</h3>
+        </div>
+      {{/if}}
+      {{markdown body}}
+    </div>
+  </div>
+</div>
