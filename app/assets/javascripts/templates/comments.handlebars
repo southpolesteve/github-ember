@@ -1,12 +1,5 @@
 {{#each }}
-  <div class="media">
-    {{github-avatar user=user}}
-    <div class="media-body">
-      <div class="panel">
-        {{markdown body}}
-      </div>
-    </div>
-  </div>
+  {{media-object user=user body=body}}
 {{/each}}
 {{#if canLoadMore}}
   {{view Github.LoadMoreView}}

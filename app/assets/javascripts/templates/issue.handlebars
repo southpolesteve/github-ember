@@ -1,14 +1,4 @@
 <div id="comments">
-  <div class="media">
-    {{github-avatar user=user}}
-    <div class="media-body">
-      <div class="panel">
-        <div class="panel-heading">
-          <h3 class="panel-title">{{title}}</h3>
-        </div>
-        {{markdown body}}
-      </div>
-    </div>
-  </div>
+  {{media-object user=user title=title body=body}}
   {{render 'comments' comments}}
 </div>
