@@ -1,9 +1,9 @@
-{{#each comment in controller }}
+{{#each }}
   <div class="media">
-    <img class="thumbnail avatar pull-left media-object" {{bind-attr src="comment.user.avatar_url" }}>
+    {{github-avatar user=user}}
     <div class="media-body">
       <div class="panel">
-        {{markdown comment.body}}
+        {{markdown body}}
       </div>
     </div>
   </div>
