@@ -1,8 +1,6 @@
 {{#each }}
   {{media-object user=user body=body}}
 {{/each}}
-{{#if canLoadMore}}
-  {{view Github.LoadMoreView}}
-{{/if}}
+{{view Github.LoadMoreView}}
 <hr/>
 {{view Github.NewCommentView}}
