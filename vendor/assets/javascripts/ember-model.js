@@ -1,5 +1,16 @@
 (function() {
 
+var VERSION = '0.0.10';
+
+if (Ember.libraries) {
+  Ember.libraries.register('Ember Model', VERSION);
+}
+
+
+})();
+
+(function() {
+
 function mustImplement(message) {
   var fn = function() {
     var className = this.constructor.toString();
@@ -152,14 +163,14 @@ Ember.RecordArray = Ember.ArrayProxy.extend(Ember.Evented, {
     
     set(this, 'isLoaded', false);
     if (modelClass._findAllRecordArray === this) {
-      modelClass.adapter.findAll(modelClass, this);
+      return modelClass.adapter.findAll(modelClass, this);
     } else if (this._query) {
-      modelClass.adapter.findQuery(modelClass, this, this._query);
+      return modelClass.adapter.findQuery(modelClass, this, this._query);
     } else {
       promises = this.map(function(record) {
         return record.reload();
       });
-      Ember.RSVP.all(promises).then(function(data) {
+      return Ember.RSVP.all(promises).then(function(data) {
         self.notifyLoaded();
       });
     }
@@ -237,7 +248,7 @@ var get = Ember.get, set = Ember.set;
 
 Ember.ManyArray = Ember.RecordArray.extend({
   _records: null,
-  originalContent: null,
+  originalContent: [],
 
   isDirty: function() {
     var originalContent = get(this, 'originalContent'),
@@ -484,6 +495,9 @@ Ember.Model = Ember.Object.extend(Ember.Evented, {
       reference = this.constructor._getOrCreateReferenceForId(id);
       reference.record = this;
       this._reference = reference;
+    } else if (reference.id !== id) {
+      reference.id = id;
+      this.constructor._cacheReference(reference);
     }
 
     if (!reference.id) {
@@ -501,6 +515,27 @@ Ember.Model = Ember.Object.extend(Ember.Evented, {
     var data = {};
     data[get(this.constructor, 'primaryKey')] = id;
     set(this, '_data', Ember.merge(data, hash));
+
+    // eagerly load embedded data
+    var relationships = this.constructor._relationships || [], meta = Ember.meta(this), relationshipKey, relationship, relationshipMeta, relationshipData, relationshipType;
+    for (var i = 0, l = relationships.length; i < l; i++) {
+      relationshipKey = relationships[i];
+      relationship = meta.descs[relationshipKey];
+      relationshipMeta = relationship.meta();
+
+      if (relationshipMeta.options.embedded) {
+        relationshipType = relationshipMeta.type;
+        if (typeof relationshipType === "string") {
+          relationshipType = Ember.get(Ember.lookup, relationshipType);
+        }
+
+        relationshipData = data[relationshipKey];
+        if (relationshipData) {
+          relationshipType.load(relationshipData);
+        }
+      }
+    }
+
     set(this, 'isLoaded', true);
     set(this, 'isNew', false);
     this._createReference();
@@ -602,6 +637,7 @@ Ember.Model = Ember.Object.extend(Ember.Evented, {
   },
 
   reload: function() {
+    this.getWithDefault('_dirtyAttributes', []).clear();
     return this.constructor.reload(this.get(get(this.constructor, 'primaryKey')));
   },
 
@@ -616,7 +652,7 @@ Ember.Model = Ember.Object.extend(Ember.Evented, {
 
     set(this, 'isNew', false);
 
-    this._copyDirtyAttributesToData();
+    set(this, '_dirtyAttributes', []);
     this.constructor.addToRecordArrays(this);
     this.trigger('didCreateRecord');
     this.didSaveRecord();
@@ -1055,6 +1091,7 @@ Ember.Model.reopenClass({
   },
 
   forEachCachedRecord: function(callback) {
+    if (!this._referenceCache) { return; }
     var ids = Object.keys(this._referenceCache);
     ids.map(function(id) {
       return this._getReferenceById(id).record;
@@ -1062,12 +1099,20 @@ Ember.Model.reopenClass({
   },
 
   load: function(hashes) {
+    if (Ember.typeOf(hashes) !== 'array') { hashes = [hashes]; }
+
     if (!this.sideloadedData) { this.sideloadedData = {}; }
+
     for (var i = 0, l = hashes.length; i < l; i++) {
       var hash = hashes[i],
-        primaryKey = hash[get(this, 'primaryKey')];
-      this.removeFromCache(primaryKey);
-      this.sideloadedData[primaryKey] = hash;
+          primaryKey = hash[get(this, 'primaryKey')],
+          record = this.getCachedReferenceRecord(primaryKey);
+
+      if (record) {
+        record.load(primaryKey, hash);
+      } else {
+        this.sideloadedData[primaryKey] = hash;
+      }
     }
   },
 
@@ -1096,13 +1141,19 @@ Ember.Model.reopenClass({
       clientId: this._clientIdCounter++
     };
 
-    // if we're creating an item, this process will be done
-    // later, once the object has been persisted.
-    if (id) {
-      this._referenceCache[id] = reference;
-    }
+    this._cacheReference(reference);
 
     return reference;
+  },
+
+  _cacheReference: function(reference) {
+    if (!this._referenceCache) { this._referenceCache = {}; }
+
+    // if we're creating an item, this process will be done
+    // later, once the object has been persisted.
+    if (reference.id) {
+      this._referenceCache[reference.id] = reference;
+    }
   }
 });
 
@@ -1273,6 +1324,15 @@ function deserialize(value, type) {
   }
 }
 
+function serialize(value, type) {
+  if (type && type.serialize) {
+    return type.serialize(value);
+  } else if (type && Ember.Model.dataTypes[type]) {
+    return Ember.Model.dataTypes[type].serialize(value);
+  } else {
+    return value;
+  }
+}
 
 Ember.attr = function(type, options) {
   return Ember.computed(function(key, value) {
@@ -1297,7 +1357,7 @@ Ember.attr = function(type, options) {
         dataValue = data[dataKey] = value;
       }
 
-      if (dataValue !== value) {
+      if (dataValue !== serialize(value, type)) {
         dirtyAttributes.pushObject(key);
       } else {
         dirtyAttributes.removeObject(key);
@@ -1420,8 +1480,8 @@ Ember.RESTAdapter = Ember.Adapter.extend({
     record.didDeleteRecord();
   },
 
-  ajax: function(url, params, method) {
-    return this._ajax(url, params, method || "GET");
+  ajax: function(url, params, method, settings) {
+    return this._ajax(url, params, (method || "GET"), settings);
   },
 
   buildURL: function(klass, id) {
@@ -1434,7 +1494,7 @@ Ember.RESTAdapter = Ember.Adapter.extend({
       return urlRoot + ".json";
     }
   },
-  
+
   ajaxSettings: function(url, method) {
     return {
       url: url,
@@ -1443,8 +1503,10 @@ Ember.RESTAdapter = Ember.Adapter.extend({
     };
   },
 
-  _ajax: function(url, params, method) {
-    var settings = this.ajaxSettings(url, method);
+  _ajax: function(url, params, method, settings) {
+    if (!settings) {
+      settings = this.ajaxSettings(url, method);
+    }
 
     return new Ember.RSVP.Promise(function(resolve, reject) {
       if (params) {
@@ -1465,7 +1527,7 @@ Ember.RESTAdapter = Ember.Adapter.extend({
         if (jqXHR) {
           jqXHR.then = null;
         }
-        
+
         Ember.run(null, reject, jqXHR);
       };
 
@@ -1535,7 +1597,7 @@ var DebugAdapter = Ember.DataAdapter.extend({
 
   columnsForType: function(type) {
     var columns = [], count = 0, self = this;
-    Ember.A(get(type.proto(), 'attributes')).forEach(function(name, meta) {
+    type.getAttributes().forEach(function(name, meta) {
         if (count++ > self.attributeLimit) { return false; }
         var desc = capitalize(underscore(name).replace('_', ' '));
         columns.push({ name: name, desc: desc });
@@ -1553,7 +1615,7 @@ var DebugAdapter = Ember.DataAdapter.extend({
     var self = this, count = 0,
         columnValues = { id: get(record, 'id') };
 
-    record.get('attributes').forEach(function(key) {
+    record.constructor.getAttributes().forEach(function(key) {
       if (count++ > self.attributeLimit) {
         return false;
       }
@@ -1565,7 +1627,7 @@ var DebugAdapter = Ember.DataAdapter.extend({
 
   getRecordKeywords: function(record) {
     var keywords = [], keys = Ember.A(['id']);
-    record.get('attributes').forEach(function(key) {
+    record.constructor.getAttributes().forEach(function(key) {
       keys.push(key);
     });
     keys.forEach(function(key) {
@@ -1596,7 +1658,7 @@ var DebugAdapter = Ember.DataAdapter.extend({
     var releaseMethods = Ember.A(), self = this,
         keysToObserve = Ember.A(['id', 'isNew', 'isDirty']);
 
-    record.get('attributes').forEach(function(key) {
+    record.constructor.getAttributes().forEach(function(key) {
       keysToObserve.push(key);
     });
 
