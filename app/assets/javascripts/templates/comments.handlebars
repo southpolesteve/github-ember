@@ -3,4 +3,18 @@
 {{/each}}
 {{view Github.LoadMoreView}}
 <hr/>
-{{view Github.NewCommentView}}
+<form>
+  {{view Ember.TextArea valueBinding="newComment.body" id="body" placeholder="Leave a Comment" rows = "4" classNames="form-control"}}
+  <button class="btn btn-success" {{action create}}>
+    Comment
+  </button>
+  {{#if issue.closed }}
+{{!--     <button class="btn btn-danger" {{action open}}>
+      Reopen
+    </button> --}}
+  {{else }}
+    <button class="btn btn-danger" {{action close}}>
+      Close
+    </button>
+  {{/if}}
+</form>

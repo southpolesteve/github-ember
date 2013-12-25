@@ -40,14 +40,14 @@ Github.Adapter = Ember.Adapter.extend
     @_ajax url, params, method || "GET"
 
   createRecord: (record)->
-    @ajax(record.createUrl, record.toJSON(), "POST").then (response) ->
+    @ajax(record.get('createUrl'), record.toJSON(), "POST").then (response) ->
       primaryKey = get(record.constructor, 'primaryKey')
       record.load(response.data[primaryKey], response.data)
       record.didCreateRecord()
       record
 
   saveRecord: (record)->
-    @ajax(record.updateUrl, record.toJSON(), "PATCH").then (response) ->
+    @ajax(record.get('updateUrl'), record.toJSON(), "PATCH").then (response) ->
       record.didSaveRecord()
       record
 

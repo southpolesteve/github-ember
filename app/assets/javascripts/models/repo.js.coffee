@@ -24,6 +24,12 @@ Github.Repo = Ember.Model.extend
     @get('full_name').split('/')[0]
   ).property('full_name')
 
+  createIssue: ((attributes)->
+    issue = Github.Issue.create(attributes)
+    issue.set('createUrl', @get('issues_url').split('{')[0])
+    issue.save()
+  )
+
 
 Github.Repo.primaryKey = "url"
 

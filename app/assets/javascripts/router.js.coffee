@@ -4,4 +4,4 @@ Github.Router.map ()->
   @resource 'watched', { path: 'repos/watched' }
   @resource 'repo', { path: '/:owner_name/:name' }, ()->
     @resource 'issue', { path: '/:number' }
-    @route 'new'
+    @route 'new_issue'

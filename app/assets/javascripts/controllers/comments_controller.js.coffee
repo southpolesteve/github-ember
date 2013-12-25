@@ -19,7 +19,11 @@ Github.CommentsController = Ember.ArrayController.extend Github.PaginatedControl
         @resetNewComment()
 
     close: ()->
-      promise = @get('issue.model').close()
+      issue = @get('issue.model')
+      repo = @get('repo.model')
+      issue.set('state', 'closed')
+      issue.save().then (issue) =>
+        @transitionTo('repo', repo)
 
 
   resetNewComment: ()->

@@ -9,8 +9,9 @@ Github.Issue = Ember.Model.extend
   comments_url: Ember.attr()
   user: Ember.attr()
 
-  createUrl: Ember.alias('url')
-  updateUrl: Ember.alias('url')
+  closed: Ember.computed.equal('state', 'closed')
+
+  updateUrl: Ember.computed.alias('url')
 
   comments: (()->
     Github.Comment.find
@@ -22,9 +23,6 @@ Github.Issue = Ember.Model.extend
     comment = Github.Comment.create(attributes)
     comment.set('createUrl', @get('comments_url'))
     comment.save()
-
-  close: ()->
-    @save()
 
 Github.Issue.primaryKey = 'url'
 
