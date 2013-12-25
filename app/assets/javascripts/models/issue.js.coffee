@@ -13,11 +13,10 @@ Github.Issue = Ember.Model.extend
 
   updateUrl: Ember.computed.alias('url')
 
-  comments: (()->
-    Github.Comment.find
+  fetchComments: ()->
+    Github.Comment.fetch
       url: @get('comments_url')
       page: 1
-  ).property()
 
   createComment: (attributes)->
     comment = Github.Comment.create(attributes)
