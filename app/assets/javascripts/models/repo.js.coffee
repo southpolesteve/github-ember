@@ -6,6 +6,8 @@ Github.Repo = Ember.Model.extend
   issues_url: Ember.attr()
   collaborators_url: Ember.attr()
 
+  hasOpenIssues: Ember.computed.gt('open_issues', 0)
+
   issues: (()->
     Github.Issue.find
       url: @get('issues_url').split('{')[0]
@@ -24,7 +26,6 @@ Github.Repo = Ember.Model.extend
 
 
 Github.Repo.primaryKey = "url"
-Github.Repo.collectionUrl = "/user/repos"
 
 Github.Repo.reopenClass
   fetchByParams: (params)->

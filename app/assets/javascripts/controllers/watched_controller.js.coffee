@@ -1,4 +1,4 @@
-Github.ReposController = Ember.ArrayController.extend Github.PaginatedController,
+Github.WatchedController = Ember.ArrayController.extend Github.PaginatedController,
 
   hideZeroIssues: true
 
@@ -11,5 +11,5 @@ Github.ReposController = Ember.ArrayController.extend Github.PaginatedController
 
   fetchPage: (page)->
     Github.Repo.fetch
-      url: 'https://api.github.com/user/repos'
+      url: 'https://api.github.com/user/subscriptions'
       page: page

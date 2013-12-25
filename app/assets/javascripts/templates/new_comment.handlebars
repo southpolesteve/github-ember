@@ -1,6 +1,6 @@
 <form>
   {{view Ember.TextArea valueBinding="newComment.body" id="body" placeholder="Leave a Comment" rows = "4" classNames="form-control"}}
-  <button class="btn btn-success" {{action create on="click"}}>
+  <button class="btn btn-success" {{action create}}>
     Comment
   </button>
 </form>

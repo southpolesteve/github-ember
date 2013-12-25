@@ -1,9 +1,13 @@
 <div id="repos">
+  <label for="hideZeroIssues">
+    Hide Repos with No Open Issues
+    {{input type="checkbox" name="hideZeroIssues" checked=hideZeroIssues}}
+  </label>
   <ul class="nav nav-tabs nav-stacked">
-    {{#each repo in controller}}
+    {{#each filteredContent}}
       <li>
-        {{#link-to 'repo' repo}}
-          {{repo.full_name}} - {{repo.open_issues}}
+        {{#link-to 'repo' this}}
+          {{full_name}} - {{open_issues}}
         {{/link-to}}
       </li>
     {{/each}}

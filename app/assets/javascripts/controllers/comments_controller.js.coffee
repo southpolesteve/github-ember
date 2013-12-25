@@ -18,6 +18,9 @@ Github.CommentsController = Ember.ArrayController.extend Github.PaginatedControl
         @addObject comment
         @resetNewComment()
 
+    close: ()->
+      promise = @get('issue.model').close()
+
 
   resetNewComment: ()->
     @set 'newComment', Ember.Object.create()
