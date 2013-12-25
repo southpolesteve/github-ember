@@ -10,6 +10,7 @@ Github.Issue = Ember.Model.extend
   user: Ember.attr()
 
   createUrl: Ember.alias('url')
+  updateUrl: Ember.alias('url')
 
   comments: (()->
     Github.Comment.find

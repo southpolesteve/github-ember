@@ -46,6 +46,11 @@ Github.Adapter = Ember.Adapter.extend
       record.didCreateRecord()
       record
 
+  saveRecord: (record)->
+    @ajax(record.updateUrl, record.toJSON(), "PATCH").then (response) ->
+      record.didSaveRecord()
+      record
+
   buildURL: (klass, params) ->
     @base + klass.url
 
